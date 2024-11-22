@@ -31,7 +31,7 @@ Bugs related to Zen should be reported directly to the Zen Browser GitHub repo:
 <https://github.com/zen-browser/desktop/issues>
 
 Bugs related to this package should be reported at this Git project:
-<https://git.gay/sneexy/copr/>
+<https://github.com/firminunderscore/copr/>
 
 %prep
 %setup -q -n %{application_name}
