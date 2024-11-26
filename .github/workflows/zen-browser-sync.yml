@@ -1,0 +1,61 @@
+# Controls when the workflow will run
+on:
+  # Trigger the workflow on each push
+  push:
+  # Schedule the workflow to run periodically (every 10 minutes)
+  schedule:
+    - cron: '*/10 * * * *'
+
+# A workflow run consists of one or more jobs
+jobs:
+  # This workflow includes a single job named "build"
+  build:
+    # Specify the type of runner to execute the job
+    runs-on: ubuntu-latest
+
+    # Sequence of tasks to be executed in the job
+    steps:
+      # Check out the repository to the GitHub Actions workspace
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          ref: 'master'
+
+      # Configure Git with a bot's identity for committing changes
+      - name: Configure Git
+        run: |
+          git config --local user.name "Bot"
+          git config --local user.email "bot@firmin-b.me"
+
+      # Update the zen-browser.spec file with the latest version information
+      - name: Update zen-browser.spec
+        run: |
+          # Fetch the latest release version from the Zen Browser GitHub API
+          ZEN_VER=$(curl -s https://api.github.com/repos/zen-browser/desktop/releases | jq -r 'first(.[].tag_name | select(test("^[0-9]")))')
+          # Replace dashes in version with dots for compatibility
+          ZEN_VER_SPEC=$(echo $ZEN_VER | sed 's@-@.@g')
+          # Update version fields in the .spec files
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_SPEC'/' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_SPEC'/' /home/runner/work/copr/copr/zen-browser/zen-browser-avx2.spec
+          # Update URLs in the .spec files to point to the new release
+          sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-generic.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
+          sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-specific.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser-avx2.spec
+
+      - name: zen-browser-twilight.spec # Used to trigger each time a new twilight is released.
+        run: |
+          ZEN_VER_TWILIGHT=$(curl -s https://api.github.com/repos/zen-browser/desktop/releases | jq -r '[.[] | select(.prerelease == true)][0].id')
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-browser-twilight.spec
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-browser-twilight-avx2.spec
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-browser-twilight-arm.spec
+          
+
+
+      # Push changes back to the repository if there are updates
+      - name: Push changes to the repository
+        run: |
+          git config pull.rebase true
+          git add .
+          # Commit changes only if there are any
+          git diff-index --quiet HEAD || git commit -m "chore(zen-browser): Sync Zen version"
+          git push
+
