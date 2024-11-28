@@ -21,7 +21,7 @@ Recommends:         (plasma-browser-integration if plasma-workspace)
 Recommends:         (gnome-browser-connector if gnome-shell)
 
 Requires(post):     gtk-update-icon-cache
-Conflicts:          zen-browser-twilight-avx2, zen-browser-avx2, zen-browser, zen-browser-twilight-arm
+Conflicts:          zen-browser-twilight-avx2, zen-browser-avx2, zen-browser, zen-browser-twilight-arm, zen-browser-arm
 
 %description
 This is a package of the Zen web browser. Zen Browser is a fork of Firefox
