@@ -40,6 +40,7 @@ jobs:
           # Update URLs in the .spec files to point to the new release
           sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-generic.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
           sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-specific.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser-avx2.spec
+          sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-specific.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser-arm.spec
 
       - name: zen-browser-twilight.spec # Used to trigger each time a new twilight is released.
         run: |
