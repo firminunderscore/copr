@@ -45,9 +45,9 @@ jobs:
       - name: zen-browser-twilight.spec # Used to trigger each time a new twilight is released.
         run: |
           ZEN_VER_TWILIGHT=$(curl -s https://api.github.com/repos/zen-browser/desktop/releases | jq -r '[.[] | select(.prerelease == true)][0].id')
-          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-browser-twilight.spec
-          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-browser-twilight-avx2.spec
-          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-browser-twilight-arm.spec
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-twilight.spec
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-twilight-avx2.spec
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-twilight-arm.spec
           
 
 
