@@ -36,8 +36,7 @@ Bugs related to this package should be reported at this Git project:
 
 %prep
 %setup -q -n zen
-mv zen zen-twilight
-cd zen-twilight
+mv zen %{application_name}
 
 %install
 %__rm -rf %{buildroot}
