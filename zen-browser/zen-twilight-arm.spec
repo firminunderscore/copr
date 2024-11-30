@@ -35,7 +35,9 @@ Bugs related to this package should be reported at this Git project:
 <https://github.com/firminunderscore/copr/>
 
 %prep
-%setup -q -n %{application_name}
+%setup -q -n zen
+mv zen zen-twilight
+cd zen-twilight
 
 %install
 %__rm -rf %{buildroot}
