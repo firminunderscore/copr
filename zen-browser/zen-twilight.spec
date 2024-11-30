@@ -13,7 +13,7 @@ URL:                https://github.com/zen-browser/desktop
 Source0:            https://github.com/zen-browser/desktop/releases/download/twilight/zen.linux-generic.tar.bz2
 Source1:            %{full_name}.desktop
 Source2:            policies.json
-Source3:            zen-browser
+Source3:            %{full_name}
 
 ExclusiveArch:      x86_64
 
