@@ -3,7 +3,7 @@
 %global             debug_package %{nil}
 
 Name:               zen-twilight-avx2
-Version:            189414757
+Version:            189545137
 Release:            1%{?dist}
 Summary:            Zen Browser (Twilight)
 
