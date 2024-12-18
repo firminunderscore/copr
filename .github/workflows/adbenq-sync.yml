@@ -1,0 +1,41 @@
+on:
+  push:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+        with:
+          ref: 'master'
+
+      - name: Configure Git
+        run: |
+          git config --local user.name "Bot"
+          git config --local user.email "bot@firmin-b.me"
+
+      - name: Update ADBenQ version in files
+        id: update_version
+        run: |
+          NEW_VER=$(curl -s https://api.github.com/repos/zarox28/adbenq/releases | jq -r 'first(.[].tag_name)' | tr -dc '0-9.-' | tr '-' '.')
+          CURRENT_VER=$(grep '^Version:' /home/runner/work/copr/copr/adbenq/adbenq.spec | awk '{print $2}')
+          if [ "$NEW_VER" != "$CURRENT_VER" ]; then
+            sed -i '0,/Version:.*/s//Version:        '$NEW_VER'/' /home/runner/work/copr/copr/adbenq/adbenq.spec
+            sed -i '0,/Version=.*/s//Version='$NEW_VER'/' /home/runner/work/copr/copr/adbenq/adbenq.desktop
+            echo "::set-output name=version_changed::true"
+          else
+            echo "::set-output name=version_changed::false"
+          fi
+
+      - name: Push changes to the repository
+        if: steps.update_version.outputs.version_changed == 'true'
+        run: |
+          git config pull.rebase true
+          git add .
+          git commit -m "chore(adbenq): Sync ADBenQ version"
+          git push
+          curl -X POST ${{ secrets.COPR_ADBENQ_BROWSER_WEBHOOK }}

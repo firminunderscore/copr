@@ -29,9 +29,11 @@ jobs:
 
       # Update the zen-browser.spec file with the latest version information
       - name: Update zen-browser.spec
+        id: update_zen_browser_spec
         run: |
           # Fetch the latest release version from the Zen Browser GitHub API
           ZEN_VER=$(curl -s https://api.github.com/repos/zen-browser/desktop/releases | jq -r 'first(.[].tag_name | select(test("^[0-9]")))')
+          OLD_VER=$(grep '^Version:' /home/runner/work/copr/copr/zen-browser/zen-browser.spec | awk '{print $2}')
           # Replace dashes in version with dots for compatibility
           ZEN_VER_SPEC=$(echo $ZEN_VER | sed 's@-@.@g')
           # Update version fields in the .spec files
@@ -41,15 +43,24 @@ jobs:
           sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-generic.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
           sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-specific.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser-avx2.spec
           sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-aarch64.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser-arm.spec
+          if [ "$ZEN_VER" != "$OLD_VER" ]; then
+            echo "::set-output name=version_changed::true"
+          else
+            echo "::set-output name=version_changed::false"
+          fi
 
-      - name: zen-browser-twilight.spec # Used to trigger each time a new twilight is released.
+      - name: update-zen-browser-twilight-spec
+        id: update_twilight
         run: |
           ZEN_VER_TWILIGHT=$(curl -s https://api.github.com/repos/zen-browser/desktop/releases | jq -r '[.[] | select(.prerelease == true)][0].id')
           sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-twilight.spec
           sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-twilight-avx2.spec
           sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-twilight-arm.spec
-          
-
+          if [ "$ZEN_VER_TWILIGHT" != "$OLD_VER" ]; then
+            echo "::set-output name=twilight_version_changed::true"
+          else
+            echo "::set-output name=twilight_version_changed::false"
+          fi
 
       # Push changes back to the repository if there are updates
       - name: Push changes to the repository
@@ -59,4 +70,17 @@ jobs:
           # Commit changes only if there are any
           git diff-index --quiet HEAD || git commit -m "chore(zen-browser): Sync Zen version"
           git push
+        
+      - name: Trigger webhook
+        if: steps.update_zen_browser_spec.outputs.version_changed == 'true'
+        run: |
+          curl -X POST ${{ secrets.ZEN_BROWSER_WEBHOOK }}
+          curl -X POST ${{ secrets.ZEN_BROWSER_AVX2_WEBHOOK }}
+          curl -X POST ${{ secrets.ZEN_BROWSER_ARM_WEBHOOK }}
 
+      - name: Trigger twilight webhook
+        if: steps.update_twilight.outputs.twilight_version_changed == 'true'
+        run: |
+          curl -X POST ${{ secrets.ZEN_TWILIGHT_WEBHOOK }}
+          curl -X POST ${{ secrets.ZEN_TWILIGHT_AVX2_WEBHOOK }}
+          curl -X POST ${{ secrets.ZEN_TWILIGHT_ARM_WEBHOOK }}
