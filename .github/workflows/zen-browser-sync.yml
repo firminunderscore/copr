@@ -38,7 +38,7 @@ jobs:
           # Replace dashes in version with dots for compatibility
           # Update version fields in the .spec files
           sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_SPEC'/' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
-          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_SPEC'/' /home/runner/work/copr/copr/zen-browser/zen-browser-avx2.spec
+          sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_SPEC'/' /home/runner/work/copr/copr/zen-browser/zen-browser-arm.spec
           # Update URLs in the .spec files to point to the new release
           sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-x86_64.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
           sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-aarch64.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser-arm.spec
