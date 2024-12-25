@@ -3,7 +3,7 @@
 %global             debug_package %{nil}
 
 Name:               zen-browser
-Version:            1.0.2.b.4
+Version:            1.0.2.b.5
 Release:            1%{?dist}
 Summary:            Zen Browser
 
