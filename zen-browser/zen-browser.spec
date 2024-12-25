@@ -3,13 +3,13 @@
 %global             debug_package %{nil}
 
 Name:               zen-browser
-Version:            1.0.2.b.5
+Version:            1.0.2.b.4
 Release:            1%{?dist}
 Summary:            Zen Browser
 
 License:            MPLv2.0
 URL:                https://github.com/zen-browser/desktop
-Source0:            https://github.com/zen-browser/desktop/releases/download/1.0.2-b.5/zen.linux-generic.tar.bz2
+Source0:            https://github.com/zen-browser/desktop/releases/download/1.0.2-b.5/zen.linux-x86_64.tar.bz2
 Source1:            %{full_name}.desktop
 Source2:            policies.json
 Source3:            %{full_name}
@@ -21,6 +21,9 @@ Recommends:         (gnome-browser-connector if gnome-shell)
 
 Requires(post):     gtk-update-icon-cache
 Conflicts:          zen-browser-avx2, zen-browser-arm
+
+Provides: zen-browser-avx2 = %{Version}-%{Release}
+Obsoletes: zen-browser-avx2 < %{Version}-%{Release}
 
 %description
 This is a package of the Zen web browser. Zen Browser is a fork of Firefox

@@ -3,14 +3,14 @@
 %global             debug_package %{nil}
 
 Name:               zen-twilight
-Version:            192280300
+Version:            192280200
 Release:            1%{?dist}
 Summary:            Zen Browser (Twilight)
 
 License:            MPLv2.0
 URL:                https://github.com/zen-browser/desktop
 
-Source0:            https://github.com/zen-browser/desktop/releases/download/twilight/zen.linux-generic.tar.bz2
+Source0:            https://github.com/zen-browser/desktop/releases/download/twilight/zen.linux-x86_64.tar.bz2
 Source1:            %{full_name}.desktop
 Source2:            policies.json
 Source3:            %{full_name}
@@ -22,6 +22,9 @@ Recommends:         (gnome-browser-connector if gnome-shell)
 
 Requires(post):     gtk-update-icon-cache
 Conflicts:          zen-twilight-avx2, zen-twilight-arm
+
+Provides: zen-twilight-avx2 = %{Version}-%{Release}
+Obsoletes: zen-twilight-avx2 < %{Version}-%{Release}
 
 %description
 This is a package of the Zen web browser. Zen Browser is a fork of Firefox
