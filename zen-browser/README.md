@@ -1,8 +1,6 @@
 # Zen Browser
 
-Copy of the repo made by sneexy [here](https://git.gay/sneexy/copr/src/branch/main/zen-browser)
-
-I've forked this repo to have control on my browser build
+Fork of the repo made by sneexy [here](https://git.gay/sneexy/copr/src/branch/main/zen-browser)
 
 ## Available Packages
 
@@ -14,6 +12,7 @@ I've forked this repo to have control on my browser build
 --------------
 
 ## Installation Instructions
+
 1. Enable `firminunderscore/zen-browser` [Copr](https://copr.fedorainfracloud.org/) repository according to your package manager.
 
 ```Shell
