@@ -34,6 +34,7 @@ install -Dm0644 zig-out/share/ghostty/shell-integration/fish/vendor_conf.d/ghost
 install -Dm0644 zig-out/share/ghostty/shell-integration/zsh/ghostty-integration %{buildroot}%{_datadir}/ghostty/shell-integration/zsh/ghostty-integration
 
 # Themes
+mkdir -p %{buildroot}%{_datadir}/ghostty/themes
 find zig-out/share/ghostty/themes -type f -exec install -Dm0644 {} %{buildroot}%{_datadir}/ghostty/themes/ \;
 
 %files
