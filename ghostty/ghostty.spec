@@ -6,7 +6,7 @@ Release:        1%{?dist}
 Summary:        Ghostty - Afast, feature-rich, and cross-platform terminal emulator
 
 License:        MIT
-URL:            https://example.com
+URL:            https://ghostty.org
 Source0:        https://github.com/ghostty-org/ghostty/archive/v%{version}.tar.gz
 
 BuildRequires:  gtk4-devel, zig, libadwaita-devel
