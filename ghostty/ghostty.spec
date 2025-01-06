@@ -1,13 +1,13 @@
 %global debug_package %{nil}
 
 Name:           ghostty
-Version:        1.0.0
+Version:        1.0.1
 Release:        1%{?dist}
 Summary:        Ghostty - A fast, feature-rich, and cross-platform terminal emulator
 
 License:        MIT
 URL:            https://ghostty.org
-Source0:        https://github.com/ghostty-org/ghostty/archive/v%{version}.tar.gz
+Source0:        https://github.com/ghostty-org/ghostty/archive/ref/tags/v%{version}.tar.gz
 
 BuildRequires:  gtk4-devel, zig, libadwaita-devel, fontconfig-devel, freetype-devel, glib2-devel, gtk4-devel, harfbuzz-devel, libadwaita-devel, libpng-devel, oniguruma-devel, pandoc-cli, pixman-devel, pkg-config, zig, zlib-ng-devel
 Requires:       gtk4, libadwaita, fontconfig, freetype, glib2, harfbuzz, libpng, oniguruma, pixman, zlib-ng
