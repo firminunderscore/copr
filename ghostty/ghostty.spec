@@ -17,7 +17,7 @@ Requires:       gtk4, libadwaita, fontconfig, freetype, glib2, harfbuzz, libpng,
 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration. 
 
 %prep
-%setup -q -n v{version}
+%setup -q -n v%{version}
 
 %build
 ZIG_GLOBAL_CACHE_DIR=/tmp/offline-cache ./nix/build-support/fetch-zig-cache.sh
