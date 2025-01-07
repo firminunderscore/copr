@@ -9,6 +9,7 @@ License:        MIT
 URL:            https://ghostty.org
 Source0:        https://github.com/ghostty-org/ghostty/archive/refs/tags/v%{version}.zip
 
+
 BuildRequires:  gtk4-devel, zig, libadwaita-devel, fontconfig-devel, freetype-devel, glib2-devel, gtk4-devel, harfbuzz-devel, libadwaita-devel, libpng-devel, oniguruma-devel, pandoc-cli, pixman-devel, pkg-config, zig, zlib-ng-devel
 Requires:       gtk4, libadwaita, fontconfig, freetype, glib2, harfbuzz, libpng, oniguruma, pixman, zlib-ng
 
@@ -16,7 +17,7 @@ Requires:       gtk4, libadwaita, fontconfig, freetype, glib2, harfbuzz, libpng,
 Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration. 
 
 %prep
-%setup -q -n ghostty-%{version}
+%setup -q -n v{version}
 
 %build
 ZIG_GLOBAL_CACHE_DIR=/tmp/offline-cache ./nix/build-support/fetch-zig-cache.sh
@@ -44,6 +45,7 @@ zig build \
 %{_prefix}/share/icons/hicolor/32x32/apps/com.mitchellh.ghostty.png
 %{_prefix}/share/icons/hicolor/32x32@2/apps/com.mitchellh.ghostty.png
 %{_prefix}/share/icons/hicolor/512x512/apps/com.mitchellh.ghostty.png
+%{_prefix}/share/icons/hicolor/1024x1024/apps/com.mitchellh.ghostty.png
 %{_prefix}/share/kio/servicemenus/com.mitchellh.ghostty.desktop
 %{_prefix}/share/man/man1/ghostty.1
 %{_prefix}/share/man/man5/ghostty.5
