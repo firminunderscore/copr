@@ -1,5 +1,5 @@
 Name:           adbenq
-Version:        0.2.4
+Version:        
 Release:        1%{?dist}
 Summary:        ADBenQ
 
