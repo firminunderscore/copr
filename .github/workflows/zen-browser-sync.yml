@@ -4,7 +4,7 @@ on:
   push:
   # Schedule the workflow to run periodically (every 10 minutes)
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: "*/10 * * * *"
 
 # A workflow run consists of one or more jobs
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
         with:
-          ref: 'master'
+          ref: "master"
 
       # Configure Git with a bot's identity for committing changes
       - name: Configure Git
@@ -40,8 +40,8 @@ jobs:
           sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_SPEC'/' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
           sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_SPEC'/' /home/runner/work/copr/copr/zen-browser/zen-browser-arm.spec
           # Update URLs in the .spec files to point to the new release
-          sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-x86_64.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
-          sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-aarch64.tar.bz2@g' /home/runner/work/copr/copr/zen-browser/zen-browser-arm.spec
+          sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-x86_64.tar.xz@g' /home/runner/work/copr/copr/zen-browser/zen-browser.spec
+          sed -i 's@https://github.com/zen-browser/desktop/releases/download/.*@https://github.com/zen-browser/desktop/releases/download/'$ZEN_VER'/zen.linux-aarch64.tar.xz@g' /home/runner/work/copr/copr/zen-browser/zen-browser-arm.spec
           if [ "$ZEN_VER_SPEC" != "$OLD_VER" ]; then
             echo "::set-output name=version_changed::true"
           else
@@ -69,7 +69,7 @@ jobs:
           # Commit changes only if there are any
           git diff-index --quiet HEAD || git commit -m "chore(zen-browser): Sync Zen version"
           git push
-        
+
       - name: Trigger webhook
         if: steps.update_zen_browser_spec.outputs.version_changed == 'true'
         run: |

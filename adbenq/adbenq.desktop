@@ -1,9 +1,0 @@
-[Desktop Entry]
-Version=0.2.4
-Type=Application
-Name=ADBenQ
-Comment=Control your BenQ TV like a boss 🖥️✨ 
-Exec=python3 /opt/adbenq/main.py
-Icon=adbenq
-Terminal=false
-Categories=System;Monitor

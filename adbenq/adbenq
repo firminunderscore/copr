@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-python3 /opt/adbenq/main.py "$@"
