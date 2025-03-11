@@ -21,6 +21,10 @@ jobs:
         with:
           ref: "master"
 
+      # Install required dependencies
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
       # Configure Git with a bot's identity for committing changes
       - name: Configure Git
         run: |
