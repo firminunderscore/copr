@@ -31,8 +31,8 @@ jobs:
       - name: Update zen-browser.spec
         id: update_zen_browser_spec
         run: |
-          # Fetch the latest release version from the Zen Browser GitHub API
-          ZEN_VER=$(curl -s https://api.github.com/repos/zen-browser/desktop/releases | jq -r 'first(.[].tag_name | select(test("^[0-9]")))')
+          # Fetch the latest release version from the Zen Browser update server
+          ZEN_VER=$(curl -s "https://updates.zen-browser.app/updates/browser/Linux_x86_64-gcc3/release/update.xml" | xmllint --xpath 'string(//update/@displayVersion)' -)
           ZEN_VER_SPEC=$(echo $ZEN_VER | sed 's@-@.@g')
           OLD_VER=$(grep '^Version:' /home/runner/work/copr/copr/zen-browser/zen-browser.spec | awk '{print $2}')
           # Replace dashes in version with dots for compatibility
@@ -51,7 +51,7 @@ jobs:
       - name: update-zen-browser-twilight-spec
         id: update_twilight
         run: |
-          ZEN_VER_TWILIGHT=$(curl -s https://api.github.com/repos/zen-browser/desktop/releases | jq -r '[.[] | select(.prerelease == true)][0].id')
+          ZEN_VER_TWILIGHT=$(curl -s "https://updates.zen-browser.app/updates/browser/Linux_x86_64-gcc3/twilight/update.xml" | xmllint --xpath 'string(//update/@displayVersion)' -)
           OLD_VER=$(grep '^Version:' /home/runner/work/copr/copr/zen-browser/zen-twilight.spec | awk '{print $2}')
           sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-twilight.spec
           sed -i '0,/Version:.*/s//Version:            '$ZEN_VER_TWILIGHT'/' /home/runner/work/copr/copr/zen-browser/zen-twilight-arm.spec
