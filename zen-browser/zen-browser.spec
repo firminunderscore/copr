@@ -22,9 +22,6 @@ Recommends:         (gnome-browser-connector if gnome-shell)
 Requires(post):     gtk-update-icon-cache
 Conflicts:          zen-browser-avx2, zen-browser-arm
 
-Provides: zen-browser-avx2 = %{Version}-%{Release}
-Obsoletes: zen-browser-avx2 < %{Version}-%{Release}
-
 %description
 This is a package of the Zen web browser. Zen Browser is a fork of Firefox
 that aims to improve the browsing experience by focusing on a simple,
